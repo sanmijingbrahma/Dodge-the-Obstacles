@@ -29,7 +29,24 @@ class Player{
     }
 };
 
+class Obstacles{
+    public:
+        float x, y;
+        float radius;
+        int speed_y;
+    void Draw(){
+        DrawCircle(x,y,radius,WHITE);
+    }
+
+    void Update(){
+       
+        y+=speed_y;
+    }    
+    
+};
+
 Player p1;
+Obstacles O1;
 
 
 int main(){
@@ -49,6 +66,20 @@ int main(){
     p1.x= 66;
     p1.y = GetScreenHeight()-25;
 
+    // Obstacles Properties
+    O1.speed_y = 7;
+    O1.radius = 25 + rand()% (40-25)+1;
+
+    int xMin = 60+O1.radius;
+    int xMax = ((780-O1.radius) - xMin) +1;
+
+    int yMin = O1.radius;
+    int yMax = ((screen_height-250)-yMin)+1;
+
+    O1.x = xMin + rand()% ((xMax-xMin)+1);
+    O1.y = yMin + rand()% ((yMax-yMin)+1);
+
+
 
     // game loop
     while(!WindowShouldClose()){
@@ -57,9 +88,16 @@ int main(){
         DrawLine(60,0,60,600,WHITE);
         DrawLine(740,0,740,600,WHITE);
         DrawLine(0,screen_height-250,screen_width,screen_height-250,WHITE);
+        if(O1.y+O1.radius>=GetScreenHeight()-250){
+            O1.x = xMin + rand()% ((xMax-xMin)+1);
+            O1.y = yMin + rand()% ((yMax-yMin)+1);
+        }
+
+
         p1.Update();
+        O1.Update();
 
-
+        O1.Draw();
         p1.Darw();
 
 
